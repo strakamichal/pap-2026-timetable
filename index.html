@@ -41,9 +41,42 @@ h1 { margin: 0 0 6px; font-size: 22px; letter-spacing: 0.4px; }
 .tag-S { background: #d97706; color: #fff; }
 .tag-XS { background: #db2777; color: #fff; }
 .tag-XSpS { background: linear-gradient(90deg,#db2777 0 50%,#d97706 50% 100%); color: #fff; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin: 0 0 18px; border-bottom: 2px solid #e5e7eb; }
+.tabs input[type=radio] { display: none; }
+.tabs label { padding: 8px 18px; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-radius: 6px 6px 0 0; user-select: none; }
+.tabs label:hover { background: #eef2f7; color: #111827; }
+#tab-tt:checked ~ .tabs label[for=tab-tt],
+#tab-jg:checked ~ .tabs label[for=tab-jg] { background: #fff; color: #0f3d5e; border-bottom: 2px solid #0f3d5e; margin-bottom: -2px; }
+.view { display: none; }
+#tab-tt:checked ~ .view-tt,
+#tab-jg:checked ~ .view-jg { display: block; }
+
+/* Judge view */
+.judge-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.judge-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; margin-bottom: 10px; }
+.judge-name { font-size: 16px; font-weight: 700; color: #0f3d5e; }
+.judge-code { color: #94a3b8; font-weight: 500; font-size: 12px; }
+.judge-totals { font-size: 13px; color: #475569; }
+.judge-day { margin-top: 10px; }
+.judge-day-head { font-size: 13px; color: #374151; margin-bottom: 4px; padding: 4px 8px; background: #f1f5f9; border-radius: 4px; }
+.judge-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.judge-table th { text-align: left; padding: 5px 8px; color: #64748b; font-weight: 600; border-bottom: 1px solid #e5e7eb; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+.judge-table td { padding: 5px 8px; border-bottom: 1px solid #f1f5f9; font-variant-numeric: tabular-nums; }
+.judge-table tr.row-course_build { background: #fafafa; color: #4b5563; font-style: italic; }
+.judge-table tr.row-run { font-weight: 500; }
+.judge-role { display: inline-block; padding: 1px 6px; background: #dbeafe; color: #1e40af; border-radius: 999px; font-size: 10px; font-weight: 600; }
 </style></head><body>
-<h1>Prague Agility Party 2026 — Timetable</h1>
-<div class="sub">Chuchle Arena Praha · 07–09. 08. 2026 · y-axis = time, x-axis = rings</div>
+<h1>Prague Agility Party 2026</h1>
+<div class="sub">Chuchle Arena Praha · 07–09. 08. 2026</div>
+<input type="radio" name="tab" id="tab-tt" checked>
+<input type="radio" name="tab" id="tab-jg">
+<nav class="tabs">
+<label for="tab-tt">Timetable</label>
+<label for="tab-jg">Judges</label>
+</nav>
+<div class="view view-tt">
 <div class="legend">
 <div class="item"><span class="dot" style="background:#9ca3af"></span>Course Building</div>
 <div class="item"><span class="dot" style="background:#3b82f6"></span>Coursewalking</div>
@@ -326,4 +359,284 @@ h1 { margin: 0 0 6px; font-size: 22px; letter-spacing: 0.4px; }
 <div class="slot slot-inspection" style="top:647px;left:720px;width:216px;height:43px;min-height:43px;background:#dff2ff;color:#0b4f73;border-left-color:#3b82f6;" title="13:13–13:37 · 24 min · Jumping Individual I · WALK · I · groups 7/8/9 · Aneta Obrusníková"><div class="slot-time">13:13–13:37 · 24 min</div><div class="slot-line2"><span class="slot-type">WALK</span><span class="tag tag-I">I</span><span class="slot-groups">7/8/9</span></div><div class="slot-run">Jumping Individual I</div><div class="slot-judge">Aneta Obrusníková</div></div>
 <div class="slot slot-run" style="top:690px;left:720px;width:216px;height:160px;min-height:160px;background:#dff2ff;color:#0b4f73;border-left-color:#ef4444;" title="13:37–15:06 · 89 min · Jumping Individual I · RUN · I · groups 7/8/9 · Aneta Obrusníková"><div class="slot-time">13:37–15:06 · 89 min</div><div class="slot-line2"><span class="slot-type">RUN</span><span class="tag tag-I">I</span><span class="slot-groups">7/8/9</span></div><div class="slot-run">Jumping Individual I</div><div class="slot-judge">Aneta Obrusníková</div></div>
 </div></section>
+</div>
+<div class="view view-jg">
+<section class="judges-view">
+<h2 style="margin-top:0;">Judges Program</h2>
+<p class="sub" style="margin:-4px 0 18px;">Course Building + Running per judge (inspections omitted). Hours = total assigned time.</p>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Jeremy Manno <span class="judge-code">(J1)</span></div>
+    <div class="judge-totals">Total: <b>20h 6m</b> · <b>13</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>4h 6m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>09:00–09:20</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Team XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>09:44–11:33</td><td>109m</td><td>R1</td><td>Run</td><td>Agility Team XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+<tr class="row-course_build"><td>11:42–12:02</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Team I</td><td></td><td></td></tr>
+<tr class="row-run"><td>12:26–14:03</td><td>97m</td><td>R1</td><td>Run</td><td>Agility Team I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>12h 2m</b> · <b>9</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R2</td><td>Build</td><td>Agility Team M</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:16</td><td>102m</td><td>R2</td><td>Run</td><td>Agility Team M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-course_build"><td>13:30–15:20</td><td>110m</td><td>R2</td><td>Build</td><td>Team Relay Final XS & S</td><td></td><td></td></tr>
+<tr class="row-course_build"><td>13:30–15:20</td><td>110m</td><td>R3</td><td>Build</td><td>Team Relay Final XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R2</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R3</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R2</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>head</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R3</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>head</span></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>3h 58m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R3</td><td>Build</td><td>Agility Individual L (Round 2)</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:23</td><td>109m</td><td>R3</td><td>Run</td><td>Agility Individual L (Round 2) H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>11:02–12:51</td><td>109m</td><td>R3</td><td>Run</td><td>Agility Individual L (Round 2) H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Annamária Borovská <span class="judge-code">(J2)</span></div>
+    <div class="judge-totals">Total: <b>16h 7m</b> · <b>13</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>3h 52m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>09:00–09:20</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Team M</td><td></td><td></td></tr>
+<tr class="row-run"><td>09:44–11:17</td><td>93m</td><td>R4</td><td>Run</td><td>Jumping Team M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-course_build"><td>11:42–12:02</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Team XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>12:26–14:05</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Team XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>8h 17m</b> · <b>9</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>10:33–10:53</td><td>20m</td><td>R3</td><td>Build</td><td>Agility Individual I</td><td></td><td></td></tr>
+<tr class="row-run"><td>11:17–12:54</td><td>97m</td><td>R3</td><td>Run</td><td>Agility Individual I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R2</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R3</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R2</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R3</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>3h 58m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R2</td><td>Build</td><td>Agility Individual L</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:23</td><td>109m</td><td>R2</td><td>Run</td><td>Agility Individual L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>11:02–12:51</td><td>109m</td><td>R2</td><td>Run</td><td>Agility Individual L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Max Glover <span class="judge-code">(J3)</span></div>
+    <div class="judge-totals">Total: <b>15h 58m</b> · <b>13</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>5h 27m</b> · <b>3</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>09:00–09:20</td><td>20m</td><td>R2</td><td>Build</td><td>Jumping Team L</td><td></td><td></td></tr>
+<tr class="row-run"><td>09:44–11:23</td><td>99m</td><td>R2</td><td>Run</td><td>Jumping Team L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>12:12–13:51</td><td>99m</td><td>R2</td><td>Run</td><td>Jumping Team L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-course_build"><td>14:10–14:30</td><td>20m</td><td>R2</td><td>Build</td><td>Jumping Individual I</td><td></td><td></td></tr>
+<tr class="row-run"><td>14:54–16:23</td><td>89m</td><td>R2</td><td>Run</td><td>Jumping Individual I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>8h 22m</b> · <b>9</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>12:36–12:56</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Individual M</td><td></td><td></td></tr>
+<tr class="row-run"><td>13:20–15:02</td><td>102m</td><td>R1</td><td>Run</td><td>Agility Individual M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R2</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R3</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R2</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R3</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>2h 9m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>10:11–10:31</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Individual XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>10:55–12:44</td><td>109m</td><td>R1</td><td>Run</td><td>Agility Individual XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Jesús Fernández Crespo <span class="judge-code">(J4)</span></div>
+    <div class="judge-totals">Total: <b>8h 40m</b> · <b>5</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>3h 58m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>09:00–09:20</td><td>20m</td><td>R3</td><td>Build</td><td>Agility Team L</td><td></td><td></td></tr>
+<tr class="row-run"><td>09:44–11:33</td><td>109m</td><td>R3</td><td>Run</td><td>Agility Team L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>12:12–14:01</td><td>109m</td><td>R3</td><td>Run</td><td>Agility Team L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>2h 9m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>10:32–10:52</td><td>20m</td><td>R2</td><td>Build</td><td>Agility Individual XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>11:16–13:05</td><td>109m</td><td>R2</td><td>Run</td><td>Agility Individual XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>2h 33m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Individual I</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:11</td><td>97m</td><td>R1</td><td>Run</td><td>Agility Individual I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+<tr class="row-course_build"><td>15:33–15:53</td><td>20m</td><td>R3</td><td>Build</td><td>Individual Final M</td><td></td><td></td></tr>
+<tr class="row-run"><td>16:06–16:22</td><td>16m</td><td>R3</td><td>Run</td><td>Individual Final M</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Zsófi Bíró <span class="judge-code">(J5)</span></div>
+    <div class="judge-totals">Total: <b>16h 16m</b> · <b>13</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>3h 59m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>14:03–14:23</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Team M</td><td></td><td></td></tr>
+<tr class="row-run"><td>14:47–16:29</td><td>102m</td><td>R1</td><td>Run</td><td>Agility Team M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-course_build"><td>16:33–16:53</td><td>20m</td><td>R2</td><td>Build</td><td>Agility Team I (Round 2)</td><td></td><td></td></tr>
+<tr class="row-run"><td>17:17–18:54</td><td>97m</td><td>R2</td><td>Run</td><td>Agility Team I (Round 2) I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>10h 18m</b> · <b>10</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Team L</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:23</td><td>109m</td><td>R1</td><td>Run</td><td>Agility Team L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>10:47–12:36</td><td>109m</td><td>R1</td><td>Run</td><td>Agility Team L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>15:40–16:18</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R2</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>16:18–16:56</td><td>38m</td><td>R3</td><td>Run</td><td>Team Relay Final M</td><td><span class="tag tag-M">M</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R2</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:16–17:50</td><td>34m</td><td>R3</td><td>Run</td><td>Team Relay Final I</td><td><span class="tag tag-I">I</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R2</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+<tr class="row-run"><td>17:50–19:10</td><td>80m</td><td>R3</td><td>Run</td><td>Team Relay Final L</td><td><span class="tag tag-L">L</span></td><td><span class='judge-role'>panel</span></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>1h 59m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Individual XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:13</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Individual XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Aneta Obrusníková <span class="judge-code">(J6)</span></div>
+    <div class="judge-totals">Total: <b>6h 43m</b> · <b>4</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>1h 53m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>16:29–16:49</td><td>20m</td><td>R1</td><td>Build</td><td>Jumping Individual M</td><td></td><td></td></tr>
+<tr class="row-run"><td>17:13–18:46</td><td>93m</td><td>R1</td><td>Run</td><td>Jumping Individual M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>2h 9m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R3</td><td>Build</td><td>Agility Team XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:23</td><td>109m</td><td>R3</td><td>Run</td><td>Agility Team XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>2h 41m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>12:53–13:13</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Individual I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+<tr class="row-run"><td>13:37–15:06</td><td>89m</td><td>R4</td><td>Run</td><td>Jumping Individual I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+<tr class="row-course_build"><td>16:22–16:42</td><td>20m</td><td>R3</td><td>Build</td><td>Individual Final L</td><td></td><td></td></tr>
+<tr class="row-run"><td>17:04–17:36</td><td>32m</td><td>R3</td><td>Run</td><td>Individual Final L</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Nikiforos Orfanakos <span class="judge-code">(J7)</span></div>
+    <div class="judge-totals">Total: <b>8h 1m</b> · <b>5</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>3h 38m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>14:14–14:34</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Individual L</td><td></td><td></td></tr>
+<tr class="row-run"><td>14:58–16:37</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Individual L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>17:01–18:40</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Individual L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>1h 49m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>07:50–08:10</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Team I</td><td></td><td></td></tr>
+<tr class="row-run"><td>08:34–10:03</td><td>89m</td><td>R4</td><td>Run</td><td>Jumping Team I I1</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>2h 34m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>10:13–10:33</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Individual M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-run"><td>10:57–12:30</td><td>93m</td><td>R4</td><td>Run</td><td>Jumping Individual M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-course_build"><td>14:59–15:19</td><td>20m</td><td>R2</td><td>Build</td><td>Individual Final XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>15:32–15:53</td><td>21m</td><td>R2</td><td>Run</td><td>Individual Final XS & S</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+<div class="judge-card">
+  <div class="judge-head">
+    <div class="judge-name">Cecilia Klingberg <span class="judge-code">(J8)</span></div>
+    <div class="judge-totals">Total: <b>8h 15m</b> · <b>5</b> runs</div>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Friday 07.08. · <b>1h 59m</b> · <b>1</b> run</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>14:14–14:34</td><td>20m</td><td>R3</td><td>Build</td><td>Jumping Individual XS & S</td><td></td><td></td></tr>
+<tr class="row-run"><td>14:58–16:37</td><td>99m</td><td>R3</td><td>Run</td><td>Jumping Individual XS & S G1-3</td><td><span class="tag tag-XSpS">XS+S</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Saturday 08.08. · <b>3h 38m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>10:03–10:23</td><td>20m</td><td>R4</td><td>Build</td><td>Jumping Individual L</td><td></td><td></td></tr>
+<tr class="row-run"><td>11:17–12:56</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Individual L H1</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+<tr class="row-run"><td>13:30–15:09</td><td>99m</td><td>R4</td><td>Run</td><td>Jumping Individual L H2</td><td><span class="tag tag-L">L</span></td><td></td></tr>
+</tbody></table>
+  </div>
+  <div class="judge-day">
+    <div class="judge-day-head">Sunday 09.08. · <b>2h 38m</b> · <b>2</b> runs</div>
+    <table class="judge-table"><thead><tr><th>Time</th><th>Dur</th><th>Ring</th><th>Type</th><th>Run</th><th>Cat</th><th>Note</th></tr></thead><tbody>
+<tr class="row-course_build"><td>12:53–13:13</td><td>20m</td><td>R1</td><td>Build</td><td>Agility Individual M</td><td></td><td></td></tr>
+<tr class="row-run"><td>13:37–15:19</td><td>102m</td><td>R1</td><td>Run</td><td>Agility Individual M M1</td><td><span class="tag tag-M">M</span></td><td></td></tr>
+<tr class="row-course_build"><td>15:53–16:13</td><td>20m</td><td>R2</td><td>Build</td><td>Individual Final I</td><td></td><td></td></tr>
+<tr class="row-run"><td>16:35–16:51</td><td>16m</td><td>R2</td><td>Run</td><td>Individual Final I</td><td><span class="tag tag-I">I</span></td><td></td></tr>
+</tbody></table>
+  </div>
+</div>
+</section>
+</div>
 </body></html>
