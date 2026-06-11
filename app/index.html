@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16202b">
+<title>Prague Agility Party 2026 · Live program</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --ink: #16202b; --muted: #5b6676; --faint: #8a94a1; --line: #e2e7ee;
+  --bg: #f6f8fa; --gold-bg: #fdf3d0; --gold-ink: #6b4e00; --gold-acc: #d4a017;
+  --live: #e11d48;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 15px; }
+
+header { background: var(--ink); color: #fff; padding: 12px 14px 2px; }
+.topbar { position: sticky; top: 0; z-index: 90; }
+.daybar { background: var(--ink); padding: 8px 14px 10px; }
+header .ev { font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+header .loc { font-size: 10px; color: #aab7c4; letter-spacing: 0.7px; text-transform: uppercase; margin-top: 1px; }
+.daytabs { display: flex; gap: 6px; }
+.daytab { flex: 1; text-align: center; padding: 7px 4px 6px; border-radius: 9px;
+  background: rgba(255,255,255,0.08); color: #aab7c4; cursor: pointer; user-select: none;
+  border: 1px solid transparent; }
+.daytab .dn { font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; }
+.daytab .dd { font-size: 9.5px; margin-top: 1px; }
+.daytab.on { background: #ffd76a; color: var(--ink); }
+.daytab.today:not(.on) { border-color: #ffd76a; }
+.daytab.on .dd, .daytab.today .dd { color: inherit; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 14px;
+  background: #fff; border-bottom: 1px solid var(--line); }
+.chip { padding: 5px 11px; border-radius: 999px; border: 1.5px solid var(--line);
+  background: #fff; font-size: 12px; font-weight: 700; color: var(--muted);
+  cursor: pointer; user-select: none; white-space: nowrap; }
+.chip.on { color: #fff; background: var(--ink); border-color: var(--ink); }
+.chip .sw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; }
+.chip.picker::after { content: " ▾"; font-size: 10px; }
+
+main { max-width: 980px; margin: 0 auto; padding: 0 0 40px; }
+
+.nextcard { margin: 10px 14px 0; border-radius: 12px; background: #fff;
+  border: 1px solid var(--line); overflow: hidden; }
+.nextcard .nc-head { padding: 7px 12px 0; font-size: 10px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+.nc-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; }
+.nc-row + .nc-row { border-top: 1px solid #f2f5f8; }
+.nc-when { font-weight: 800; font-size: 13px; min-width: 74px; font-variant-numeric: tabular-nums; }
+.nc-when.live { color: var(--live); }
+.nc-what { flex: 1; min-width: 0; }
+.nc-what .t1 { font-weight: 700; font-size: 13px; }
+.nc-what .t2 { font-size: 11px; color: var(--muted); }
+.rdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; }
+
+.agenda { margin: 10px 14px 0; border-radius: 12px; background: #fff;
+  border: 1px solid var(--line); overflow: hidden; }
+.agenda .ag-head { padding: 8px 12px; font-size: 10px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--faint); border-bottom: 1px solid #f2f5f8;
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.ag-row { display: flex; align-items: baseline; gap: 9px; padding: 7px 12px;
+  border-top: 1px solid #f2f5f8; font-size: 12.5px; }
+.ag-row:first-of-type { border-top: none; }
+.ag-row.done { opacity: 0.45; }
+.ag-row.live { background: #fff5f7; }
+.ag-time { font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 84px; }
+.ag-main { flex: 1; min-width: 0; }
+.ag-main .nm { font-weight: 700; }
+.ag-main .sb { font-size: 10.5px; color: var(--muted); }
+.ag-eta { font-size: 10.5px; font-weight: 700; color: var(--faint); white-space: nowrap; }
+.ag-eta.live { color: var(--live); }
+
+.tlwrap { margin: 12px 0 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; }
+.tlwrap::-webkit-scrollbar { display: none; height: 0; }
+.tl { position: relative; margin: 0 auto; }
+.ringhdr { position: absolute; top: 0; height: 24px; border-radius: 7px 7px 0 0; color: #fff;
+  font-weight: 700; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center;
+  position: sticky-disabled; }
+.gridline { position: absolute; border-top: 1px solid #edf0f4; }
+.gridline.hour { border-top-color: #d9dee6; }
+.tlab { position: absolute; font-size: 9px; color: var(--faint); font-weight: 700;
+  font-variant-numeric: tabular-nums; }
+.band { position: absolute; background-color: #ffecec; border: 1px solid #f3c1c1; border-radius: 5px;
+  color: #a33; font-size: 8.5px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center; }
+.nowline { position: absolute; border-top: 2px solid var(--live); z-index: 40; pointer-events: none; }
+.nowline::before { content: ""; position: absolute; left: -3px; top: -4px; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--live); }
+
+.blk { position: absolute; border-radius: 6px; padding: 2px 6px; overflow: hidden;
+  line-height: 1.25; cursor: pointer; }
+.blk.dim { opacity: 0.18; }
+.blk .bt { font-weight: 700; font-size: 9.5px; font-variant-numeric: tabular-nums; }
+.blk .bt .nw { font-weight: 400; }
+.blk .bn { font-weight: 700; font-size: 10px; }
+.blk .bs { font-size: 8.5px; opacity: 0.85; }
+.blk.build { background-color: #eef1f5;
+  background-image: repeating-linear-gradient(-45deg,#f6f8fa 0 5px,#e9edf2 5px 10px);
+  border: 1px dashed #b7c0cb; color: var(--muted); }
+.blk.walk { border: 1.5px dashed; }
+.blk.run { border-left: 4px solid; }
+.blk.live { box-shadow: 0 0 0 2px var(--live); }
+.oneline { display: flex; gap: 4px; align-items: baseline; white-space: nowrap; }
+
+footer { margin: 18px 14px 0; padding-top: 10px; border-top: 1px solid var(--line);
+  font-size: 10.5px; color: var(--faint); display: flex; justify-content: space-between;
+  gap: 8px; flex-wrap: wrap; }
+
+.sheetbg { position: fixed; inset: 0; background: rgba(22,32,43,0.45); z-index: 100;
+  display: none; }
+.sheetbg.open { display: block; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; background: #fff;
+  border-radius: 16px 16px 0 0; padding: 14px 16px calc(18px + env(safe-area-inset-bottom));
+  z-index: 101; max-height: 75vh; overflow-y: auto; max-width: 640px; margin: 0 auto; }
+.sheet h3 { margin: 0 0 10px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+.grpgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.grpbtn { padding: 10px 0 7px; text-align: center; border-radius: 10px; border: 1.5px solid var(--line);
+  font-weight: 800; font-size: 15px; cursor: pointer; }
+.grpbtn small { display: block; font-size: 8.5px; font-weight: 700; letter-spacing: 0.5px; margin-top: 1px; }
+.judlist { display: flex; flex-direction: column; gap: 8px; }
+.judbtn { padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--line);
+  font-weight: 700; font-size: 14px; cursor: pointer; background: #fff; text-align: left; }
+.det .d-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+.det .d-time { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 8px; }
+.det .d-row { font-size: 12.5px; padding: 5px 0; border-top: 1px solid #f2f5f8; display: flex; gap: 8px; }
+.det .d-row b { min-width: 86px; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--faint); padding-top: 2px; }
+@media (min-width: 700px) {
+  header .ev { font-size: 18px; }
+  .daytabs { max-width: 420px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="ev">Prague Agility Party 2026</div>
+  <div class="loc">Chuchle Arena Praha · Live program</div>
+</header>
+<div class="topbar">
+<div class="daybar"><div class="daytabs" id="daytabs"></div></div>
+<div class="filters" id="filters"></div>
+</div>
+<main>
+  <div class="nextcard" id="nextcard" style="display:none">
+    <div class="nc-head">Right now &amp; next up</div>
+    <div id="nc-rows"></div>
+  </div>
+  <div class="agenda" id="agenda" style="display:none">
+    <div class="ag-head"><span id="ag-title"></span></div>
+    <div id="ag-rows"></div>
+  </div>
+  <div class="tlwrap" id="tlwrap"><div class="tl" id="tl"></div></div>
+  <footer>
+    <span>Times are indicative and may shift during the event but will never start earlier than scheduled.</span>
+    <span>Updated 11.06.2026 12:08</span>
+  </footer>
+</main>
+<div class="sheetbg" id="sheetbg"></div>
+<div class="sheet" id="sheet" style="display:none"></div>
+<script>
+const DATA = {"event":"Prague Agility Party 2026","venue":"Chuchle Arena Praha","updated":"11.06.2026 12:08","days":[{"id":"D1","date":"2026-08-07","label":"Friday","s":540,"e":1140},{"id":"D2","date":"2026-08-08","label":"Saturday","s":450,"e":1140},{"id":"D3","date":"2026-08-09","label":"Sunday","s":450,"e":1080}],"slots":[{"d":"D1","r":"R1","t":"build","s":540,"e":560,"c":null,"g":[],"h":null,"j":["J1"],"sp":null,"dogs":94,"n":"Course building","sub":"Agility Team XS & S"},{"d":"D1","r":"R1","t":"walk","s":560,"e":584,"c":"XS+S","g":[1,2,3],"h":null,"j":["J1"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team XS & S"},{"d":"D1","r":"R1","t":"run","s":584,"e":693,"c":"XS+S","g":[1,2,3],"h":null,"j":["J1"],"sp":null,"dogs":94,"n":"Agility Team XS & S"},{"d":"D1","r":"R1","t":"build","s":702,"e":722,"c":null,"g":[],"h":null,"j":["J1"],"sp":null,"dogs":84,"n":"Course building","sub":"Agility Team I"},{"d":"D1","r":"R1","t":"walk","s":722,"e":746,"c":"I","g":[7,8,9],"h":null,"j":["J1"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Agility Team I"},{"d":"D1","r":"R1","t":"run","s":746,"e":843,"c":"I","g":[7,8,9],"h":null,"j":["J1"],"sp":null,"dogs":84,"n":"Agility Team I"},{"d":"D1","r":"R1","t":"build","s":843,"e":863,"c":null,"g":[],"h":null,"j":["J6"],"sp":null,"dogs":88,"n":"Course building","sub":"Agility Team M"},{"d":"D1","r":"R1","t":"walk","s":863,"e":887,"c":"M","g":[4,5,6],"h":null,"j":["J6"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Agility Team M"},{"d":"D1","r":"R1","t":"run","s":887,"e":989,"c":"M","g":[4,5,6],"h":null,"j":["J6"],"sp":null,"dogs":88,"n":"Agility Team M"},{"d":"D1","r":"R1","t":"build","s":989,"e":1009,"c":null,"g":[],"h":null,"j":["J5"],"sp":null,"dogs":88,"n":"Course building","sub":"Jumping Individual M"},{"d":"D1","r":"R1","t":"walk","s":1009,"e":1033,"c":"M","g":[4,5,6],"h":null,"j":["J5"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Jumping Individual M"},{"d":"D1","r":"R1","t":"run","s":1033,"e":1126,"c":"M","g":[4,5,6],"h":null,"j":["J5"],"sp":null,"dogs":88,"n":"Jumping Individual M"},{"d":"D1","r":"R2","t":"build","s":540,"e":560,"c":null,"g":[],"h":null,"j":["J4"],"sp":null,"dogs":188,"n":"Course building","sub":"Jumping Team L"},{"d":"D1","r":"R2","t":"walk","s":560,"e":584,"c":"L","g":[10,11,12],"h":1,"j":["J4"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Team L"},{"d":"D1","r":"R2","t":"run","s":584,"e":683,"c":"L","g":[10,11,12],"h":1,"j":["J4"],"sp":null,"dogs":94,"n":"Jumping Team L"},{"d":"D1","r":"R2","t":"walk","s":708,"e":732,"c":"L","g":[13,14,15],"h":2,"j":["J4"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Team L"},{"d":"D1","r":"R2","t":"run","s":732,"e":831,"c":"L","g":[13,14,15],"h":2,"j":["J4"],"sp":null,"dogs":94,"n":"Jumping Team L"},{"d":"D1","r":"R2","t":"build","s":850,"e":870,"c":null,"g":[],"h":null,"j":["J5"],"sp":null,"dogs":84,"n":"Course building","sub":"Jumping Individual I"},{"d":"D1","r":"R2","t":"walk","s":870,"e":894,"c":"I","g":[7,8,9],"h":null,"j":["J5"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Jumping Individual I"},{"d":"D1","r":"R2","t":"run","s":894,"e":983,"c":"I","g":[7,8,9],"h":null,"j":["J5"],"sp":null,"dogs":84,"n":"Jumping Individual I"},{"d":"D1","r":"R2","t":"build","s":993,"e":1013,"c":null,"g":[],"h":null,"j":["J3"],"sp":null,"dogs":84,"n":"Course building","sub":"Agility Team I"},{"d":"D1","r":"R2","t":"walk","s":1013,"e":1037,"c":"I","g":[7,8,9],"h":null,"j":["J3"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Agility Team I"},{"d":"D1","r":"R2","t":"run","s":1037,"e":1134,"c":"I","g":[7,8,9],"h":null,"j":["J3"],"sp":null,"dogs":84,"n":"Agility Team I"},{"d":"D1","r":"R3","t":"build","s":540,"e":560,"c":null,"g":[],"h":null,"j":["J3"],"sp":null,"dogs":188,"n":"Course building","sub":"Agility Team L"},{"d":"D1","r":"R3","t":"walk","s":560,"e":584,"c":"L","g":[13,14,15],"h":2,"j":["J3"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team L"},{"d":"D1","r":"R3","t":"run","s":584,"e":693,"c":"L","g":[13,14,15],"h":2,"j":["J3"],"sp":null,"dogs":94,"n":"Agility Team L"},{"d":"D1","r":"R3","t":"walk","s":708,"e":732,"c":"L","g":[10,11,12],"h":1,"j":["J3"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team L"},{"d":"D1","r":"R3","t":"run","s":732,"e":841,"c":"L","g":[10,11,12],"h":1,"j":["J3"],"sp":null,"dogs":94,"n":"Agility Team L"},{"d":"D1","r":"R3","t":"build","s":854,"e":874,"c":null,"g":[],"h":null,"j":["J8"],"sp":null,"dogs":94,"n":"Course building","sub":"Jumping Individual XS & S"},{"d":"D1","r":"R3","t":"walk","s":874,"e":898,"c":"XS+S","g":[1,2,3],"h":null,"j":["J8"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual XS & S"},{"d":"D1","r":"R3","t":"run","s":898,"e":997,"c":"XS+S","g":[1,2,3],"h":null,"j":["J8"],"sp":null,"dogs":94,"n":"Jumping Individual XS & S"},{"d":"D1","r":"R4","t":"build","s":540,"e":560,"c":null,"g":[],"h":null,"j":["J2"],"sp":null,"dogs":88,"n":"Course building","sub":"Jumping Team M"},{"d":"D1","r":"R4","t":"walk","s":560,"e":584,"c":"M","g":[4,5,6],"h":null,"j":["J2"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Jumping Team M"},{"d":"D1","r":"R4","t":"run","s":584,"e":677,"c":"M","g":[4,5,6],"h":null,"j":["J2"],"sp":null,"dogs":88,"n":"Jumping Team M"},{"d":"D1","r":"R4","t":"build","s":702,"e":722,"c":null,"g":[],"h":null,"j":["J2"],"sp":null,"dogs":94,"n":"Course building","sub":"Jumping Team XS & S"},{"d":"D1","r":"R4","t":"walk","s":722,"e":746,"c":"XS+S","g":[1,2,3],"h":null,"j":["J2"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Team XS & S"},{"d":"D1","r":"R4","t":"run","s":746,"e":845,"c":"XS+S","g":[1,2,3],"h":null,"j":["J2"],"sp":null,"dogs":94,"n":"Jumping Team XS & S"},{"d":"D1","r":"R4","t":"build","s":854,"e":874,"c":null,"g":[],"h":null,"j":["J7"],"sp":null,"dogs":188,"n":"Course building","sub":"Jumping Individual L"},{"d":"D1","r":"R4","t":"walk","s":874,"e":898,"c":"L","g":[10,11,12],"h":1,"j":["J7"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual L"},{"d":"D1","r":"R4","t":"run","s":898,"e":997,"c":"L","g":[10,11,12],"h":1,"j":["J7"],"sp":null,"dogs":94,"n":"Jumping Individual L"},{"d":"D1","r":"R4","t":"walk","s":997,"e":1021,"c":"L","g":[13,14,15],"h":2,"j":["J7"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual L"},{"d":"D1","r":"R4","t":"run","s":1021,"e":1120,"c":"L","g":[13,14,15],"h":2,"j":["J7"],"sp":null,"dogs":94,"n":"Jumping Individual L"},{"d":"D2","r":"R1","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J6"],"sp":null,"dogs":188,"n":"Course building","sub":"Agility Team L"},{"d":"D2","r":"R1","t":"walk","s":490,"e":514,"c":"L","g":[10,11,12],"h":1,"j":["J6"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team L"},{"d":"D2","r":"R1","t":"run","s":514,"e":623,"c":"L","g":[10,11,12],"h":1,"j":["J6"],"sp":null,"dogs":94,"n":"Agility Team L"},{"d":"D2","r":"R1","t":"walk","s":623,"e":647,"c":"L","g":[13,14,15],"h":2,"j":["J6"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team L"},{"d":"D2","r":"R1","t":"run","s":647,"e":756,"c":"L","g":[13,14,15],"h":2,"j":["J6"],"sp":null,"dogs":94,"n":"Agility Team L"},{"d":"D2","r":"R1","t":"build","s":756,"e":776,"c":"I","g":[],"h":null,"j":["J7"],"sp":null,"dogs":84,"n":"Course building","sub":"Agility Individual I"},{"d":"D2","r":"R1","t":"walk","s":776,"e":800,"c":"I","g":[7,8,9],"h":null,"j":["J7"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Agility Individual I"},{"d":"D2","r":"R1","t":"run","s":800,"e":897,"c":"I","g":[7,8,9],"h":null,"j":["J7"],"sp":null,"dogs":84,"n":"Agility Individual I"},{"d":"D2","r":"R2","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J1"],"sp":null,"dogs":88,"n":"Course building","sub":"Agility Team M"},{"d":"D2","r":"R2","t":"walk","s":490,"e":514,"c":"M","g":[4,5,6],"h":null,"j":["J1"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Agility Team M"},{"d":"D2","r":"R2","t":"run","s":514,"e":616,"c":"M","g":[4,5,6],"h":null,"j":["J1"],"sp":null,"dogs":88,"n":"Agility Team M"},{"d":"D2","r":"R2","t":"build","s":632,"e":652,"c":null,"g":[],"h":null,"j":["J4"],"sp":null,"dogs":94,"n":"Course building","sub":"Agility Individual XS & S"},{"d":"D2","r":"R2","t":"walk","s":652,"e":676,"c":"XS+S","g":[1,2,3],"h":null,"j":["J4"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual XS & S"},{"d":"D2","r":"R2","t":"run","s":676,"e":785,"c":"XS+S","g":[1,2,3],"h":null,"j":["J4"],"sp":null,"dogs":94,"n":"Agility Individual XS & S"},{"d":"D2","r":"R23","t":"build","s":787,"e":897,"c":null,"g":[],"h":null,"j":["J1"],"sp":"relay","dogs":36,"n":"Course building","sub":"Team Relay Final"},{"d":"D2","r":"R23","t":"walk","s":897,"e":907,"c":"XS+S","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":36,"n":"Coursewalking · XS+S","sub":"Team Relay XS+S"},{"d":"D2","r":"R23","t":"walk","s":907,"e":917,"c":"M","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":36,"n":"Coursewalking · M","sub":"Team Relay M"},{"d":"D2","r":"R23","t":"run","s":917,"e":955,"c":"XS+S","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":36,"n":"Team Relay Final XS+S"},{"d":"D2","r":"R23","t":"run","s":955,"e":993,"c":"M","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":36,"n":"Team Relay Final M"},{"d":"D2","r":"R23","t":"walk","s":993,"e":1003,"c":"I","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":32,"n":"Coursewalking · I","sub":"Team Relay I"},{"d":"D2","r":"R23","t":"walk","s":1003,"e":1013,"c":"L","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":76,"n":"Coursewalking · L","sub":"Team Relay L"},{"d":"D2","r":"R23","t":"run","s":1013,"e":1047,"c":"I","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":32,"n":"Team Relay Final I"},{"d":"D2","r":"R23","t":"run","s":1047,"e":1127,"c":"L","g":[],"h":null,"j":["J1","J2","J3","J5"],"sp":"relay","dogs":76,"n":"Team Relay Final L"},{"d":"D2","r":"R3","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Course building","sub":"Agility Team XS & S"},{"d":"D2","r":"R3","t":"walk","s":490,"e":514,"c":"XS+S","g":[1,2,3],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Team XS & S"},{"d":"D2","r":"R3","t":"run","s":514,"e":623,"c":"XS+S","g":[1,2,3],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Agility Team XS & S"},{"d":"D2","r":"R3","t":"build","s":633,"e":653,"c":"M","g":[],"h":null,"j":["J3"],"sp":null,"dogs":88,"n":"Course building","sub":"Agility Individual M"},{"d":"D2","r":"R3","t":"walk","s":653,"e":677,"c":"M","g":[4,5,6],"h":null,"j":["J3"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Agility Individual M"},{"d":"D2","r":"R3","t":"run","s":677,"e":779,"c":"M","g":[4,5,6],"h":null,"j":["J3"],"sp":null,"dogs":88,"n":"Agility Individual M"},{"d":"D2","r":"R4","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J2"],"sp":null,"dogs":84,"n":"Course building","sub":"Jumping Team I"},{"d":"D2","r":"R4","t":"walk","s":490,"e":514,"c":"I","g":[7,8,9],"h":null,"j":["J2"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Jumping Team I"},{"d":"D2","r":"R4","t":"run","s":514,"e":603,"c":"I","g":[7,8,9],"h":null,"j":["J2"],"sp":null,"dogs":84,"n":"Jumping Team I"},{"d":"D2","r":"R4","t":"build","s":603,"e":623,"c":null,"g":[],"h":null,"j":["J8"],"sp":null,"dogs":188,"n":"Course building","sub":"Jumping Individual L"},{"d":"D2","r":"R4","t":"walk","s":653,"e":677,"c":"L","g":[10,11,12],"h":1,"j":["J8"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual L"},{"d":"D2","r":"R4","t":"run","s":677,"e":776,"c":"L","g":[10,11,12],"h":1,"j":["J8"],"sp":null,"dogs":94,"n":"Jumping Individual L"},{"d":"D2","r":"R4","t":"walk","s":786,"e":810,"c":"L","g":[13,14,15],"h":2,"j":["J8"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual L"},{"d":"D2","r":"R4","t":"run","s":810,"e":909,"c":"L","g":[13,14,15],"h":2,"j":["J8"],"sp":null,"dogs":94,"n":"Jumping Individual L"},{"d":"D3","r":"R1","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J4"],"sp":null,"dogs":84,"n":"Course building","sub":"Agility Individual I"},{"d":"D3","r":"R1","t":"walk","s":490,"e":514,"c":"I","g":[7,8,9],"h":null,"j":["J4"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Agility Individual I"},{"d":"D3","r":"R1","t":"run","s":514,"e":611,"c":"I","g":[7,8,9],"h":null,"j":["J4"],"sp":null,"dogs":84,"n":"Agility Individual I"},{"d":"D3","r":"R1","t":"build","s":611,"e":631,"c":null,"g":[],"h":null,"j":["J3"],"sp":null,"dogs":94,"n":"Course building","sub":"Agility Individual XS & S"},{"d":"D3","r":"R1","t":"walk","s":631,"e":655,"c":"XS+S","g":[1,2,3],"h":null,"j":["J3"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual XS & S"},{"d":"D3","r":"R1","t":"run","s":655,"e":764,"c":"XS+S","g":[1,2,3],"h":null,"j":["J3"],"sp":null,"dogs":94,"n":"Agility Individual XS & S"},{"d":"D3","r":"R1","t":"build","s":773,"e":793,"c":null,"g":[],"h":null,"j":["J8"],"sp":null,"dogs":88,"n":"Course building","sub":"Agility Individual M"},{"d":"D3","r":"R1","t":"walk","s":793,"e":817,"c":"M","g":[4,5,6],"h":null,"j":["J8"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Agility Individual M"},{"d":"D3","r":"R1","t":"run","s":817,"e":919,"c":"M","g":[4,5,6],"h":null,"j":["J8"],"sp":null,"dogs":88,"n":"Agility Individual M"},{"d":"D3","r":"R2","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J2"],"sp":null,"dogs":188,"n":"Course building","sub":"Agility Individual L"},{"d":"D3","r":"R2","t":"walk","s":490,"e":514,"c":"L","g":[10,11,12],"h":1,"j":["J2"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual L"},{"d":"D3","r":"R2","t":"run","s":514,"e":623,"c":"L","g":[10,11,12],"h":1,"j":["J2"],"sp":null,"dogs":94,"n":"Agility Individual L"},{"d":"D3","r":"R2","t":"walk","s":638,"e":662,"c":"L","g":[13,14,15],"h":2,"j":["J2"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual L"},{"d":"D3","r":"R2","t":"run","s":662,"e":771,"c":"L","g":[13,14,15],"h":2,"j":["J2"],"sp":null,"dogs":94,"n":"Agility Individual L"},{"d":"D3","r":"R2","t":"build","s":899,"e":919,"c":null,"g":[],"h":null,"j":["J7"],"sp":"final","dogs":20,"n":"Course building","sub":"Individual Final XS & S"},{"d":"D3","r":"R2","t":"run","s":932,"e":953,"c":"XS+S","g":[],"h":null,"j":["J7"],"sp":"final","dogs":20,"n":"Individual Final XS & S","ws":919},{"d":"D3","r":"R2","t":"build","s":953,"e":973,"c":null,"g":[],"h":null,"j":["J8"],"sp":"final","dogs":15,"n":"Course building","sub":"Individual Final I"},{"d":"D3","r":"R2","t":"run","s":995,"e":1011,"c":"I","g":[],"h":null,"j":["J8"],"sp":"final","dogs":15,"n":"Individual Final I","ws":982},{"d":"D3","r":"R3","t":"build","s":470,"e":490,"c":null,"g":[],"h":null,"j":["J1"],"sp":null,"dogs":188,"n":"Course building","sub":"Agility Individual L"},{"d":"D3","r":"R3","t":"walk","s":490,"e":514,"c":"L","g":[13,14,15],"h":2,"j":["J1"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual L"},{"d":"D3","r":"R3","t":"run","s":514,"e":623,"c":"L","g":[13,14,15],"h":2,"j":["J1"],"sp":null,"dogs":94,"n":"Agility Individual L"},{"d":"D3","r":"R3","t":"walk","s":638,"e":662,"c":"L","g":[10,11,12],"h":1,"j":["J1"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Agility Individual L"},{"d":"D3","r":"R3","t":"run","s":662,"e":771,"c":"L","g":[10,11,12],"h":1,"j":["J1"],"sp":null,"dogs":94,"n":"Agility Individual L"},{"d":"D3","r":"R3","t":"build","s":933,"e":953,"c":null,"g":[],"h":null,"j":["J4"],"sp":"final","dogs":15,"n":"Course building","sub":"Individual Final M"},{"d":"D3","r":"R3","t":"run","s":966,"e":982,"c":"M","g":[],"h":null,"j":["J4"],"sp":"final","dogs":15,"n":"Individual Final M","ws":953},{"d":"D3","r":"R3","t":"build","s":982,"e":1002,"c":null,"g":[],"h":null,"j":["J6"],"sp":"final","dogs":30,"n":"Course building","sub":"Individual Final L"},{"d":"D3","r":"R3","t":"run","s":1024,"e":1056,"c":"L","g":[],"h":null,"j":["J6"],"sp":"final","dogs":30,"n":"Individual Final L","ws":1011},{"d":"D3","r":"R4","t":"build","s":470,"e":490,"c":"XS+S","g":[],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Course building","sub":"Jumping Individual XS & S"},{"d":"D3","r":"R4","t":"walk","s":490,"e":514,"c":"XS+S","g":[1,2,3],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Coursewalking","sub":"Jumping Individual XS & S"},{"d":"D3","r":"R4","t":"run","s":514,"e":613,"c":"XS+S","g":[1,2,3],"h":null,"j":["J5"],"sp":null,"dogs":94,"n":"Jumping Individual XS & S"},{"d":"D3","r":"R4","t":"build","s":613,"e":633,"c":"M","g":[],"h":null,"j":["J7"],"sp":null,"dogs":88,"n":"Course building","sub":"Jumping Individual M"},{"d":"D3","r":"R4","t":"walk","s":633,"e":657,"c":"M","g":[4,5,6],"h":null,"j":["J7"],"sp":null,"dogs":88,"n":"Coursewalking","sub":"Jumping Individual M"},{"d":"D3","r":"R4","t":"run","s":657,"e":750,"c":"M","g":[4,5,6],"h":null,"j":["J7"],"sp":null,"dogs":88,"n":"Jumping Individual M"},{"d":"D3","r":"R4","t":"build","s":773,"e":793,"c":"I","g":[],"h":null,"j":["J6"],"sp":null,"dogs":84,"n":"Course building","sub":"Jumping Individual I"},{"d":"D3","r":"R4","t":"walk","s":793,"e":817,"c":"I","g":[7,8,9],"h":null,"j":["J6"],"sp":null,"dogs":84,"n":"Coursewalking","sub":"Jumping Individual I"},{"d":"D3","r":"R4","t":"run","s":817,"e":906,"c":"I","g":[7,8,9],"h":null,"j":["J6"],"sp":null,"dogs":84,"n":"Jumping Individual I"}],"judges":{"J1":"Jeremy Manno","J2":"Annamária Borovská","J3":"Max Glover","J4":"Jesús Fernández Crespo","J5":"Zsófi Bíró","J6":"Aneta Obrusníková","J7":"Nikiforos Orfanakos","J8":"Cecilia Klingberg"},"bands":[{"d":"D2","s":460,"e":470,"n":"Prize giving (Friday runs)"},{"d":"D3","s":460,"e":470,"n":"Prize giving (Saturday runs)"}]};
+
+const $ = (q, el) => (el || document).querySelector(q);
+const $$ = (q, el) => Array.from((el || document).querySelectorAll(q));
+
+const RINGS = [
+  { id: "R1", name: "Ring 1", cz: "green", color: "#ABD03E", dark: true },
+  { id: "R2", name: "Ring 2", cz: "blue",  color: "#00AEEF" },
+  { id: "R3", name: "Ring 3", cz: "pink",  color: "#E41A7E" },
+  { id: "R4", name: "Ring 4", cz: "black", color: "#2b2f36" },
+];
+const CATC = {
+  "XS+S": ["#ffe8d9", "#8a3416", "#e8703a"],
+  "M":    ["#e3e8ff", "#23308f", "#5b6ee0"],
+  "I":    ["#d8efff", "#0b517a", "#2f9ad6"],
+  "L":    ["#dff3d3", "#1c5c22", "#4caf50"],
+};
+const GOLD = ["#fdf3d0", "#6b4e00", "#d4a017"];
+const GREY = ["#eef1f5", "#444c57", "#9aa3af"];
+const CATS = ["XS+S", "M", "I", "L"];
+const G2C = g => g <= 3 ? "XS+S" : g <= 6 ? "M" : g <= 9 ? "I" : "L";
+const HALF = g => g >= 10 && g <= 12 ? "first half" : g >= 13 ? "second half" : "";
+
+const PXM = 1.5, TIMEC = 38, HDR = 24;
+const state = { day: null, mode: null, val: null };
+
+function hm(m) { return String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+function durLbl(m) { return m >= 60 ? Math.floor(m / 60) + "h " + String(m % 60).padStart(2, "0") + "m" : m + " min"; }
+function colW() { return window.innerWidth >= 900 ? 215 : 158; }
+
+// ---- time: real clock, overridable via #t=D2-10:30 for demos ----
+let tOverride = null;
+function nowInfo() {
+  if (tOverride) return tOverride;
+  const now = new Date();
+  const iso = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+  const day = DATA.days.find(d => d.date === iso);
+  return { day: day ? day.id : null, min: now.getHours() * 60 + now.getMinutes() };
+}
+
+function slotColors(s) {
+  if (s.sp) return GOLD;
+  return CATC[s.c] || GREY;
+}
+function matches(s) {
+  if (!state.mode) return true;
+  if (state.mode === "cat") return s.c === state.val;
+  if (state.mode === "grp") {
+    if (s.g && s.g.includes(state.val)) return true;
+    return !!s.sp && s.c === G2C(state.val);  // relay/finals concern the whole category
+  }
+  if (state.mode === "jud") return s.t !== "walk" && s.j && s.j.includes(state.val);
+  return true;
+}
+function groupLbl(s) {
+  if (!s.g || !s.g.length) return "";
+  const r = "Group " + s.g[0] + " – " + s.g[s.g.length - 1];
+  return s.h ? r + " (" + (s.h === 1 ? "first half" : "second half") + ")" : r;
+}
+function judgeLbl(s) {
+  if (!s.j || !s.j.length) return "";
+  const names = s.j.map(j => DATA.judges[j] || j);
+  return names.length > 1 ? names[0] + " (" + names.slice(1).join(", ") + ")" : names[0];
+}
+function slotStatus(s) {  // '', 'done', 'live', 'next'
+  const ni = nowInfo();
+  if (ni.day !== state.day) return "";
+  const st = s.ws != null ? s.ws : s.s;
+  if (ni.min >= s.e) return "done";
+  if (ni.min >= st) return "live";
+  return "next";
+}
+
+// -------------------------------------------------- timeline rendering ----
+function renderTimeline() {
+  const day = DATA.days.find(d => d.id === state.day);
+  const slots = DATA.slots.filter(s => s.d === state.day);
+  const cw = colW();
+  const width = TIMEC + 4 * cw;
+  const height = HDR + (day.e - day.s) * PXM;
+  const tl = $("#tl");
+  tl.style.width = width + "px";
+  tl.style.height = height + 6 + "px";
+  let h = "";
+
+  RINGS.forEach((r, i) => {
+    const txt = r.dark ? "color:#16202b;" : "color:#fff;";
+    h += `<div class="ringhdr" style="left:${TIMEC + i * cw + 1}px;width:${cw - 3}px;background:${r.color};${txt}">${r.name} · ${r.cz}</div>`;
+  });
+  for (let m = day.s; m <= day.e; m += 30) {
+    const y = HDR + (m - day.s) * PXM;
+    const hour = m % 60 === 0;
+    h += `<div class="gridline ${hour ? "hour" : ""}" style="top:${y}px;left:${TIMEC}px;right:0;"></div>`;
+    if (hour) h += `<div class="tlab" style="top:${y - 5}px;left:2px;">${hm(m)}</div>`;
+  }
+  DATA.bands.filter(b => b.d === state.day).forEach(b => {
+    const y = HDR + (b.s - day.s) * PXM;
+    const bh = Math.max((b.e - b.s) * PXM, 12);
+    h += `<div class="band" style="top:${y}px;left:${TIMEC}px;width:${4 * cw - 4}px;height:${bh}px;">${b.n} ${hm(b.s)}</div>`;
+  });
+
+  const ridx = { R1: 0, R2: 1, R3: 2, R4: 3, R23: 1 };
+  slots.forEach((s, i) => {
+    const st = s.ws != null ? s.ws : s.s;
+    const top = HDR + (st - day.s) * PXM;
+    const bh = Math.max((s.e - st) * PXM - 1, 13);
+    const left = TIMEC + ridx[s.r] * cw + 1;
+    const w = s.r === "R23" ? 2 * cw - 4 : cw - 4;
+    const [bg, ink, acc] = slotColors(s);
+    let cls = "blk " + s.t, style = "";
+    if (s.t === "walk") style = `background:${bg}55;border-color:${acc};color:${ink};`;
+    if (s.t === "run") style = `background:${bg};border-left-color:${acc};color:${ink};`;
+    if (!matches(s)) cls += " dim";
+    if (slotStatus(s) === "live") cls += " live";
+
+    const dur = durLbl(s.e - s.s);
+    let inner;
+    if (bh < 24) {
+      inner = `<div class="oneline"><span class="bt">${hm(s.s)}</span><span class="bs">${s.n}</span></div>`;
+    } else {
+      inner = `<div class="bt">${hm(s.s)}–${hm(s.e)} <span class="nw">· ${dur}</span></div><div class="bn">${s.n}</div>`;
+      const subs = [];
+      const gl = groupLbl(s);
+      if (s.t === "run") {
+        if (gl) subs.push(gl);
+        if (s.sp === "relay") subs.push("Qualified teams only");
+        if (s.ws != null) subs.push("walk " + hm(s.ws));
+        const jl = judgeLbl(s);
+        if (jl) subs.push(jl);
+      } else if (s.t === "walk" && gl) {
+        inner = `<div class="bt">${hm(s.s)}–${hm(s.e)} <span class="nw">· ${dur}</span></div><div class="bn">Coursewalking <span class="nw">(${gl.replace(/ \(.*/, "")})</span></div>`;
+      } else if (s.t === "build" && s.sub) {
+        subs.push(s.sub);
+      }
+      inner += subs.map(x => `<div class="bs">${x}</div>`).join("");
+    }
+    h += `<div class="${cls}" data-i="${DATA.slots.indexOf(s)}" style="top:${top}px;left:${left}px;width:${w}px;height:${bh}px;${style}">${inner}</div>`;
+  });
+
+  const ni = nowInfo();
+  if (ni.day === state.day && ni.min >= day.s && ni.min <= day.e) {
+    const y = HDR + (ni.min - day.s) * PXM;
+    h += `<div class="nowline" style="top:${y}px;left:${TIMEC - 2}px;right:0;"></div>`;
+  }
+  tl.innerHTML = h;
+  $$(".blk", tl).forEach(b => b.addEventListener("click", () => openDetail(+b.dataset.i)));
+}
+
+// ------------------------------------------------------- agenda + next ----
+function agendaSlots() {
+  return DATA.slots
+    .filter(s => s.d === state.day && matches(s) && (state.mode !== "cat" && state.mode !== "grp" || s.t !== "build"))
+    .sort((a, b) => (a.ws != null ? a.ws : a.s) - (b.ws != null ? b.ws : b.s));
+}
+function etaTxt(s) {
+  const ni = nowInfo();
+  if (ni.day !== state.day) return "";
+  const st = s.ws != null ? s.ws : s.s;
+  if (ni.min >= s.e) return "✓";
+  if (ni.min >= st) return "LIVE";
+  const d = st - ni.min;
+  return "in " + (d >= 60 ? Math.floor(d / 60) + "h " + String(d % 60).padStart(2, "0") + "m" : d + " min");
+}
+function rowSub(s) {
+  const parts = [];
+  const gl = groupLbl(s);
+  if (s.t === "walk") parts.push("coursewalking");
+  if (s.t === "build") parts.push("course building");
+  if (gl && state.mode !== "grp") parts.push(gl);
+  if (s.sp === "relay") parts.push("relay · qualified teams");
+  if (s.sp === "final") parts.push("final · qualified dogs");
+  if (s.ws != null) parts.push("walk " + hm(s.ws));
+  const jl = judgeLbl(s);
+  if (jl && state.mode !== "jud") parts.push(jl);
+  return parts.join(" · ");
+}
+function ringDot(s) {
+  if (s.r === "R23") return '<span class="rdot" style="background:#00AEEF"></span><span class="rdot" style="background:#E41A7E"></span>Ring 2+3';
+  const r = RINGS.find(x => x.id === s.r);
+  return `<span class="rdot" style="background:${r.color}"></span>${r.name} (${r.cz})`;
+}
+function renderAgenda() {
+  const card = $("#agenda"), next = $("#nextcard");
+  if (!state.mode) { card.style.display = "none"; next.style.display = "none"; return; }
+  const items = agendaSlots();
+  card.style.display = items.length ? "block" : "none";
+
+  const title = state.mode === "jud" ? (DATA.judges[state.val] || state.val)
+    : state.mode === "grp" ? "Group " + state.val + " · " + G2C(state.val) + (HALF(state.val) ? " " + HALF(state.val) : "")
+    : state.val;
+  $("#ag-title").textContent = "Your day · " + title;
+  $("#ag-rows").innerHTML = items.map(s => {
+    const stt = slotStatus(s);
+    const eta = etaTxt(s);
+    return `<div class="ag-row ${stt}" data-i="${DATA.slots.indexOf(s)}">
+      <span class="ag-time">${hm(s.s)}–${hm(s.e)}</span>
+      <span class="ag-main"><span class="nm">${s.n}</span><div class="sb">${rowSub(s)} · ${ringDot(s)}</div></span>
+      <span class="ag-eta ${stt === "live" ? "live" : ""}">${eta}</span></div>`;
+  }).join("");
+  $$("#ag-rows .ag-row").forEach(r => r.addEventListener("click", () => openDetail(+r.dataset.i)));
+
+  // next-up card: live + first upcoming
+  const ni = nowInfo();
+  if (ni.day !== state.day) { next.style.display = "none"; return; }
+  const live = items.filter(s => slotStatus(s) === "live");
+  const up = items.find(s => slotStatus(s) === "next");
+  let rows = "";
+  live.forEach(s => {
+    rows += `<div class="nc-row"><span class="nc-when live">● LIVE</span>
+      <span class="nc-what"><div class="t1">${s.n}</div><div class="t2">until ${hm(s.e)} · ${ringDot(s)}</div></span></div>`;
+  });
+  if (up) {
+    rows += `<div class="nc-row"><span class="nc-when">${etaTxt(up)}</span>
+      <span class="nc-what"><div class="t1">${up.n}</div><div class="t2">${hm(up.s)}–${hm(up.e)} · ${ringDot(up)}</div></span></div>`;
+  }
+  next.style.display = rows ? "block" : "none";
+  $("#nc-rows").innerHTML = rows;
+}
+
+// ------------------------------------------------------------- detail ----
+function openDetail(i) {
+  const s = DATA.slots[i];
+  const typeName = { build: "Course building", walk: "Coursewalking", run: s.sp === "relay" ? "Team Relay Final" : s.sp === "final" ? "Individual Final" : "Run" }[s.t];
+  let rows = "";
+  const gl = groupLbl(s);
+  if (s.c) rows += `<div class="d-row"><b>Category</b><span>${s.c}</span></div>`;
+  if (gl) rows += `<div class="d-row"><b>Groups</b><span>${gl}</span></div>`;
+  if (s.ws != null) rows += `<div class="d-row"><b>Walk</b><span>${hm(s.ws)}</span></div>`;
+  const jl = judgeLbl(s);
+  if (jl) rows += `<div class="d-row"><b>Judge</b><span>${jl}</span></div>`;
+  rows += `<div class="d-row"><b>Ring</b><span>${ringDot(s)}</span></div>`;
+  if (s.dogs) rows += `<div class="d-row"><b>Dogs</b><span>${s.dogs}</span></div>`;
+  if (s.sp === "relay") rows += `<div class="d-row"><b>Note</b><span>Top 40% of teams qualify · relay runs over Ring 2 + 3</span></div>`;
+  if (s.sp === "final") rows += `<div class="d-row"><b>Note</b><span>Top 6% per qualifying run</span></div>`;
+  if (s.t !== "run" && s.sub) rows += `<div class="d-row"><b>For</b><span>${s.sub}</span></div>`;
+  openSheet(`<div class="det"><div class="d-name">${s.t === "run" ? s.n : typeName}</div>
+    <div class="d-time">${hm(s.s)}–${hm(s.e)} · ${durLbl(s.e - s.s)}</div>${rows}</div>`);
+}
+
+// ------------------------------------------------------------- sheets ----
+function openSheet(html) {
+  $("#sheet").innerHTML = html;
+  $("#sheetbg").classList.add("open");
+  $("#sheet").style.display = "block";
+}
+function closeSheet() {
+  $("#sheetbg").classList.remove("open");
+  $("#sheet").style.display = "none";
+}
+function openGroupSheet() {
+  let h = "<h3>Pick your group</h3><div class='grpgrid'>";
+  for (let g = 1; g <= 15; g++) {
+    const c = G2C(g), [bg, ink, acc] = CATC[c];
+    h += `<div class="grpbtn" data-g="${g}" style="background:${bg};color:${ink};border-color:${acc}">${g}<small>${g === 1 ? "XS" : c === "XS+S" ? "S" : c}${HALF(g) ? " · H" + (g <= 12 ? 1 : 2) : ""}</small></div>`;
+  }
+  h += "</div>";
+  openSheet(h);
+  $$(".grpbtn").forEach(b => b.addEventListener("click", () => {
+    setFilter("grp", +b.dataset.g); closeSheet();
+  }));
+}
+function openJudgeSheet() {
+  let h = "<h3>Pick a judge</h3><div class='judlist'>";
+  Object.entries(DATA.judges).forEach(([id, name]) => {
+    h += `<button class="judbtn" data-j="${id}">${name}</button>`;
+  });
+  h += "</div>";
+  openSheet(h);
+  $$(".judbtn").forEach(b => b.addEventListener("click", () => {
+    setFilter("jud", b.dataset.j); closeSheet();
+  }));
+}
+
+// -------------------------------------------------------------- state ----
+function setFilter(mode, val) {
+  if (mode && state.mode === mode && state.val === val) { mode = null; val = null; }
+  state.mode = mode; state.val = val;
+  persist(); renderFilters(); renderTimeline(); renderAgenda();
+}
+function setDay(d) {
+  state.day = d;
+  persist(); renderDayTabs(); renderTimeline(); renderAgenda(); scrollToNow();
+}
+function persist() {
+  const o = { d: state.day, m: state.mode, v: state.val };
+  try { localStorage.setItem("pap26", JSON.stringify(o)); } catch (e) {}
+  const parts = ["d=" + state.day];
+  if (state.mode === "cat") parts.push("c=" + encodeURIComponent(state.val));
+  if (state.mode === "grp") parts.push("g=" + state.val);
+  if (state.mode === "jud") parts.push("j=" + state.val);
+  history.replaceState(null, "", "#" + parts.join("&"));
+}
+function restore() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("pap26") || "null"); } catch (e) {}
+  const hp = new URLSearchParams(location.hash.slice(1));
+  if (hp.get("t")) {
+    const m = hp.get("t").match(/^(D\d)-(\d{1,2}):(\d{2})$/);
+    if (m) tOverride = { day: m[1], min: +m[2] * 60 + +m[3] };
+  }
+  const ni = nowInfo();
+  state.day = hp.get("d") || (saved && saved.d) || ni.day || "D1";
+  if (!DATA.days.find(d => d.id === state.day)) state.day = "D1";
+  if (hp.get("g")) { state.mode = "grp"; state.val = +hp.get("g"); }
+  else if (hp.get("c")) { state.mode = "cat"; state.val = hp.get("c"); }
+  else if (hp.get("j")) { state.mode = "jud"; state.val = hp.get("j"); }
+  else if (saved && saved.m) { state.mode = saved.m; state.val = saved.v; }
+}
+
+// ------------------------------------------------------------ chrome -----
+function renderDayTabs() {
+  const ni = nowInfo();
+  $("#daytabs").innerHTML = DATA.days.map(d => {
+    const dt = d.date.slice(8, 10).replace(/^0/, "") + "." + d.date.slice(5, 7).replace(/^0/, "") + ".";
+    return `<div class="daytab ${d.id === state.day ? "on" : ""} ${d.id === ni.day ? "today" : ""}" data-d="${d.id}">
+      <div class="dn">${d.label}</div><div class="dd">${dt}</div></div>`;
+  }).join("");
+  $$(".daytab").forEach(t => t.addEventListener("click", () => setDay(t.dataset.d)));
+}
+function renderFilters() {
+  let h = `<div class="chip ${!state.mode ? "on" : ""}" data-f="all">All</div>`;
+  const cOn = state.mode === "cat";
+  h += `<div class="chip picker ${cOn ? "on" : ""}" data-f="cat">${cOn ? state.val.replace("XS+S", "XS + S") : "Category"}</div>`;
+  const gOn = state.mode === "grp";
+  h += `<div class="chip picker ${gOn ? "on" : ""}" data-f="grp">${gOn ? "Group " + state.val : "Group"}</div>`;
+  const jOn = state.mode === "jud";
+  h += `<div class="chip picker ${jOn ? "on" : ""}" data-f="jud">${jOn ? (DATA.judges[state.val] || "").split(" ")[0] : "Judge"}</div>`;
+  $("#filters").innerHTML = h;
+  $$("#filters .chip").forEach(c => c.addEventListener("click", () => {
+    const f = c.dataset.f;
+    if (f === "all") setFilter(null, null);
+    else if (f === "cat") openCatSheet();
+    else if (f === "grp") openGroupSheet();
+    else openJudgeSheet();
+  }));
+}
+function openCatSheet() {
+  let h = "<h3>Pick your category</h3><div class='judlist'>";
+  CATS.forEach(c => {
+    const [bg, ink, acc] = CATC[c];
+    h += `<button class="judbtn" data-c="${c}" style="background:${bg};color:${ink};border-color:${acc}">${c.replace("XS+S", "XS + S")}</button>`;
+  });
+  h += "</div>";
+  openSheet(h);
+  $$(".judbtn").forEach(b => b.addEventListener("click", () => {
+    setFilter("cat", b.dataset.c); closeSheet();
+  }));
+}
+function scrollToNow() {
+  const ni = nowInfo();
+  if (ni.day !== state.day) return;
+  const day = DATA.days.find(d => d.id === state.day);
+  const y = HDR + (ni.min - day.s) * PXM;
+  const wrap = $("#tlwrap");
+  const target = y - window.innerHeight * 0.3;
+  window.scrollTo({ top: wrap.offsetTop + Math.max(target, 0), behavior: "auto" });
+}
+
+function tick() { renderTimeline(); renderAgenda(); renderDayTabs(); }
+
+document.addEventListener("DOMContentLoaded", () => {
+  restore();
+  renderDayTabs(); renderFilters(); renderTimeline(); renderAgenda();
+  scrollToNow();
+  $("#sheetbg").addEventListener("click", closeSheet);
+  setInterval(tick, 30000);
+  let rsz;
+  window.addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(tick, 150); });
+});
+
+</script>
+</body>
+</html>
